@@ -35,4 +35,8 @@ public class User {
                 ", address='" + address + '\'' +
                 '}';
     }
+
+    public void show(){
+        System.out.println("你好呀!");
+    }
 }
