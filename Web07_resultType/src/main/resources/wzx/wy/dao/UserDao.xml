@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wzx.wy.dao.UserDao">
+    <!--
+        resultType属性会进行自动映射: 根据结果集的字段名和POJO的属性名的对应关系进行映射
+        resultMap属性: 结果集映射(手动映射),我们要先使用resultMap标签编写一个手动映射规则，
+        然后使用这个映射规则
+    -->
+    <!--
+        id就是这个映射规则的唯一标识
+        type就是要进行手动映射的类型:UserInfo
+        autoMapping="true" 表示能自动映射的就会进行自动映射，不能自动映射的属性，才进行手动
+        映射
+    -->
+<!--    <resultMap id="userInfoMap" type="UserInfo" autoMapping="true">-->
+<!--        &lt;!&ndash;-->
+<!--        id标签表示对主键进行映射-->
+<!--        column属性是要进行映射的主键的字段名(列名):数据库的字段名-->
+<!--        property是要进行映射的POJO的属性名:映射实体类的字段名-->
+<!--        &ndash;&gt;-->
+<!--        <id column="uid" property="userId"></id>-->
+<!--        &lt;!&ndash;-->
+<!--        result标签就是对其它的非主键进行映射-->
+<!--        &ndash;&gt;-->
+<!--        <result column="username" property="username"></result>-->
+<!--        <result column="sex" property="userSex"></result>-->
+<!--        <result column="birthday" property="userBirthday"></result>-->
+<!--        <result column="address" property="userAddress"></result>-->
+<!--    </resultMap>-->
+<!--    <select id="findAll" resultMap="userInfoMap">-->
+<!--        select uid,username,sex,birthday,address from t_user;-->
+<!--    </select>-->
+
+
+    <select id="findUserListByAddress" parameterType="string" resultType="user">
+        select * from t_user
+        <!--
+        加入一个判断，判断传入的address是否为空,使用if标签进行判断,该标签中的test属性就
+        编写判断条件
+        -->
+        <if test="address != null">
+            where address=#{address}
+        </if>
+    </select>
+
+
+<!--    where标签用在自己写sql语句的时候 where关键字不好处理的情况,代替where '1' = '1'-->
+<!--    <select id="findUserListByAddressAndSex" parameterType="user" resultType="user">-->
+<!--        select * from t_user-->
+<!--        where 1=1-->
+<!--        <if test="address != null">-->
+<!--            and address=#{address}-->
+<!--        </if>-->
+<!--        <if test="sex != null">-->
+<!--            and sex=#{sex}-->
+<!--        </if>-->
+<!--    </select>-->
+
+
+    <!--
+    where标签的作用:
+    1. 可以在条件之前添加where关键字
+    2. 可以去掉第一个条件前的and
+    -->
+    <select id="findUserListByAddressAndSex" parameterType="user" resultType="user">
+        select * from t_user
+        <!--<where>
+            <if test="address != null">
+                and address=#{address}
+            </if>
+            <if test="sex != null">
+                and sex=#{sex}
+            </if>
+        </where>-->
+
+        /*choose
+        标签*/
+        <where>
+            <choose>
+                <when test="address != null">
+                    and address=#{address}
+                </when>
+                <when test="sex != null">
+                    and sex=#{sex}
+                </when>
+                <!--<otherwise>
+                    1=1
+                </otherwise>-->
+            </choose>
+        </where>
+    </select>
+
+
+    <delete id="deleteById" parameterType="int">
+        delete from t_user
+        <!--
+            将传入的集合中的数据遍历出来，放到()里面
+            使用foreach标签遍历
+            collection属性:要遍历的集合，如果要遍历的是一个List则写成list
+            item属性: 遍历出来的每一个元素
+            separator属性: 遍历出来的每一个元素之间的分隔符
+            index属性: 遍历出来的每一个元素的索引
+            open属性: 在遍历出来的第一个元素之前拼接字符串
+            close属性: 在遍历出来的最后一个元素之后拼接字符串
+        -->
+        <foreach collection="list" item="id" separator="," open="where uid in(" close=")">
+            #{id}
+        </foreach>
+
+    </delete>
+</mapper>

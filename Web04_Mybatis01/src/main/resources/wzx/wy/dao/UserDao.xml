@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+根标签mapper，一个映射配置文件，就对应一个dao接口
+根标签的namespace属性的值就对应dao接口的全路径名
+-->
+
+<mapper namespace="wzx.wy.dao.UserDao">
+    <!--
+        子标签:对应的就是dao接口中的每一个方法:
+        select:对应的就是查询方法
+        id:对应的就是方法名
+        标签的resultType的值就对应封装结果的类型，如果封装结果的类型是List就对应其泛型的类型
+        标签体的内容就是要执行的SQL语句
+
+        resultType只有select标签才有
+        我们需要在标签体的SQL语句中，获取pojo类型的参数的属性: #{属性名}
+        selectKey标签: 查询主键
+        keyColumn 表示要查询的列名
+        keyProperty 表示要赋值的属性名
+        resultType 表示查询出来的结果的类型
+        order 表示在前或者在后执行
+        select last_insert_id() 查询最后一个自增长的id的值
+
+    -->
+<!--    <select id="findAll" resultType="User">-->
+    <select id="findAll" resultType="user">
+        select * from t_user;
+    </select>
+<!--    根据id查询-->
+    <select id="searchById" parameterType="Integer" resultType="User">
+        select * from t_user where uid = #{uid}
+    </select>
+
+<!--    修改用户-->
+    <update id="updateUser">
+        update t_user set username=#{username},sex=#{sex},birthday = #{birthday},address=#{address} where uid=#{uid}
+    </update>
+<!--    删除用户,根据id删除-->
+    <delete id="deleteById" parameterType="Integer">
+        delete from t_user where uid = #{uid}
+     </delete>
+<!--    模糊查询,根据用户名查询-->
+<!--    <select id="searchByUsername" parameterType="string" resultType="user">-->
+<!--        select * from t_user where username like #{username}-->
+<!--     </select>-->
+
+<!--    1. #{}一定不能写在引号里面，${}一定要写在引号里面-->
+<!--    2. 如果是pojo、map类型的参数，无论是#{}还是${}里面都是些属性名-->
+<!--    3. 如果是简单类型的参数，#{}里面可以写任意字符串，但是${}里面只能写value(以前的版本)-->
+<!--    4. 如果使用#{}引入参数的话，其实是先使用?占位符，然后再设置参数；而使用${}引入参数的话，是-->
+<!--    直接拼接SQL语句-->
+
+    <select id="searchByUsername" parameterType="string" resultType="user">
+        select * from t_user where username like '%${username}%'
+     </select>
+
+    <!--我们可以发现， 这个 sql 语句中使用#{}字符， #{}代表占位符，我们可以理解是原来 jdbc
+部分所学的?，它们都是代表占位符， 具体的值是由 User 类的 username 属性来决定的。
+parameterType 属性：代表参数的类型，因为我们要传入的是一个类的对象，所以类型就写类的
+全名称。-->
+    <insert id="addUser" parameterType="user">
+<selectKey resultType="int" keyColumn="uid" order="AFTER" keyProperty="uid">
+    select last_insert_id()
+</selectKey>
+        insert  into t_user(username,sex,birthday,address) values (#{username},#{sex},#{birthday},#{address})
+    </insert>
+</mapper>

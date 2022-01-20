@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/Web02_Maven" />
+    <file type="web" url="file://$PROJECT_DIR$/Web03_Mybatis01" />
+    <file type="web" url="file://$PROJECT_DIR$/Web04_Mybatis01" />
+    <file type="web" url="file://$PROJECT_DIR$/Web06_SqlSessionFactoryUtils" />
+    <file type="web" url="file://$PROJECT_DIR$/Web07_resultType" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/Web05SqlSessionFactoryUtils/pom.xml" />
+        <option value="$PROJECT_DIR$/Web05_SqlSessionFactoryUtils/pom.xml" />
+        <option value="$PROJECT_DIR$/wzx/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

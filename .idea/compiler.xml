@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Web02_Maven" />
+        <module name="Web05_SqlSessionFactoryUtils" />
+        <module name="Web03_Mybatis01" />
+        <module name="Web01_Maven" />
+        <module name="Web08_Git" />
+        <module name="Web07_resultType" />
+        <module name="Web06_SqlSessionFactoryUtils" />
+        <module name="Web04_Mybatis01" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Web05_SqlSessionFactoryUtils" target="1.7" />
+      <module name="wzx" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

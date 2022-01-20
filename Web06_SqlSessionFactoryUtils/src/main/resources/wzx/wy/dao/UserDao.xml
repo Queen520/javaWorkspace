@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="wzx.wy.dao.UserDao">
+<!--    <select id="findAll" resultType="User">-->
+    <select id="findAll" resultType="user">
+        select * from t_user;
+    </select>
+
+<!--    多个查询-->
+    <select id="searchUserByUsernameAndAddress" resultType="user">
+        select * from t_user where username = #{uname} and address = #{adrs}
+    </select>
+
+<!--    根据id查询-->
+    <select id="searchById" parameterType="Integer" resultType="User">
+        select * from t_user where uid = #{uid}
+    </select>
+
+<!--    修改用户-->
+    <update id="updateUser">
+        update t_user set username=#{username},sex=#{sex},birthday = #{birthday},address=#{address} where uid=#{uid}
+    </update>
+<!--    修改用户  map方法-->
+    <update id="updateuser" parameterType="map">
+        update t_user set username=#{username},sex=#{sex},birthday = #{birthday},address=#{address} where uid=#{uid}
+    </update>
+<!--    删除用户,根据id删除-->
+    <delete id="deleteById" parameterType="Integer">
+        delete from t_user where uid = #{uid}
+     </delete>
+
+<!--    模糊查询,根据用户名查询-->
+<!--    <select id="searchByUsername" parameterType="string" resultType="user">-->
+<!--        select * from t_user where username like #{username}-->
+<!--     </select>-->
+
+    <select id="searchByUsername" parameterType="string" resultType="user">
+        select * from t_user where username like '%${username}%'
+     </select>
+
+
+    <insert id="addUser" parameterType="user">
+<selectKey resultType="int" keyColumn="uid" order="AFTER" keyProperty="uid">
+    select last_insert_id()
+</selectKey>
+        insert  into t_user(username,sex,birthday,address) values (#{username},#{sex},#{birthday},#{address})
+    </insert>
+
+
+<!--    QueryVo里面的-->
+    <select id="searchByCondition" parameterType="QueryVo" resultType="user">
+        select * from t_user where sex=#{queryCondition.sex} and address=#{queryCondition.address} limit #{offset},#{pageSize}
+    </select>
+</mapper>

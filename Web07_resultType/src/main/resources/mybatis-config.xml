@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--
+        使用properties标签引入外部的properties文件
+        目的:为了配置文件解耦,专门的信息有专门的配置文件来处理
+    -->
+    <properties resource="jdbc.properties"></properties>
+    <!--
+    使用typeAliases标签定义:类的别名,而且可以定义多个别名
+    alias:表示别名
+    通过package标签扫描整个包,找到就能给所有的类起别名,别名就是该类的类名(不区分大小写)
+
+    -->
+    <typeAliases>
+<!--        <typeAlias type="wzx.wy.pojo.User" alias="User"/>-->
+        <package name="wzx.wy.pojo"/>
+    </typeAliases>
+    <!--
+        配置数据库的环境信息
+        environments:表示里面可以配置多个环境,default表示使用哪一个
+        environment:表示一个数据的环境
+        为什么要配置多个环境:因为我们有多个环境(开发环境,生产环境(真正项目之后运行的环境),测试环境)
+    -->
+    <environments default="dev">
+        <environment id="dev">
+            <!--transactionManager:事务管理者 type:表示管理的对象,在这里表示jdbc事务管理-->
+            <transactionManager type="JDBC">
+                <property name="..." value="..."/>
+            </transactionManager>
+            <!--dataSource:数据源:1.POOLED表示使用自带连接池  2.UNPOOLED表示不使用连接池  3.JNDI表示使用JNDI连接池 -->
+            <dataSource type="POOLED">
+                <!--连接池的配置信息-->
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.user}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+
+        <!--生产环境-->
+        <environment id="pro">
+            <transactionManager type=""></transactionManager>
+            <dataSource type=""></dataSource>
+        </environment>
+        <!--测试环境-->
+        <environment id="test">
+            <transactionManager type=""></transactionManager>
+            <dataSource type=""></dataSource>
+        </environment>
+    </environments>
+
+    <!--
+    指定加载哪些映射配置文件: mappers
+    mapper标签: 每一个mapper标签负责加载一个映射配置文件;resource指定要加载的映射
+    配置文件的路径
+    package:扫描包中所有的映射文件
+    -->
+    <mappers>
+        <package name="wzx.wy.dao"/>
+<!--        <mapper resource="wzx/wy/dao/UserDao.xml"></mapper>-->
+    </mappers>
+</configuration>
